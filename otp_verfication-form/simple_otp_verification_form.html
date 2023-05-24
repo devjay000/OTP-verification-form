@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Simple OTP Verification Form</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        body{
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #e0e0e0;
+        }
+
+        .container{
+            width: 300px;
+            height: auto;
+            padding: 40px 30px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+
+        h4{
+            font-size: 20px;
+            color: #121212;
+        }
+
+        .form{
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .input-fields{
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+
+        .input-fields input{
+            border: none;
+            max-width: 25%;
+            margin: 3px;
+            height: 60px;
+            text-align: center;
+            border-radius: 10px;
+            background: #f0f0f0;
+            font-size: 25px;
+        }
+
+        .input-fields input:focus{
+            /* outline: 1.5px solid #00b991;
+            outline-offset: 2px; */
+            border: none;
+        }
+
+        form button{
+            margin-top: 40px;
+            width: 72%;
+            color: #525252;
+            font-size: 16px;
+            background: #ffdc74;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            padding: 10px 10px;
+            pointer-events: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        form button.active{
+            background: #ffcc00;
+            pointer-events: auto;
+            color: #000000;
+        }
+
+        form button:hover{
+            background: #e6b801;
+        }
+
+
+
+        .input-fields input::-webkit-inner-spin-button,.input-fields input::-webkit-outer-spin-button{
+            display: none;
+        }
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h4>Enter your OTP</h4>
+        <form action="#" class="form">
+            <div class="input-fields">
+                <input type="number" />
+                <input type="number" disabled/>
+                <input type="number" disabled/>
+                <input type="number" disabled/>
+            </div>
+
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const OTPinputs = document.querySelectorAll("input");
+        const button = document.querySelector("button");
+
+        window.addEventListener('load',() => OTPinputs[0].focus())
+
+        OTPinputs.forEach(
+            (input) => {
+                input.addEventListener("input",() => {
+                    const currentInput = input;
+                    const nextInput = input.nextElementSibling;
+
+                    if (currentInput.value.length > 1 && currentInput.value.length == 2){
+                        currentInput.value = "" ;
+                    }
+
+                    if (nextInput !== null && nextInput.hasAttribute("disabled") && currentInput.value !== null){
+                        nextInput.removeAttribute("disabled");
+                        nextInput.focus();
+                    }
+
+                    if(!OTPinputs[3].disabled && OTPinputs[3].value !== ""){
+                        button.classList.add("active");
+                    }else{
+                        button.classList.remove("active");
+                    }
+                });
+
+                input.addEventListener("keyup",(e) => {
+                    if (e.key === "Backspace"){
+                        if(input.previousElementSibling !== null){
+                            e.target.value = "";
+                            e.target.setAttribute("disabled",true);
+                            input.previousElementSibling.focus();
+                        }
+                    }
+                })
+            }
+        )
+    </script>
+</body>
+
+</html>
